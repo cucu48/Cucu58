@@ -1,0 +1,77 @@
+/*
+ * Cucu58 physical layout: where each key is on the board, in the same order as the
+ * keymap. Only used by tools that draw the keyboard (ZMK Studio, keymap-drawer).
+ *
+ * Generated from the Ergogen points by scripts/zmk_physical_layout.py; regenerate it
+ * if the key layout in config.yaml changes.
+ */
+
+#include <physical_layouts.dtsi>
+
+/ {
+    cucu58_layout: cucu58_layout {
+        compatible = "zmk,physical-layout";
+        display-name = "Cucu58";
+
+        keys  //                     w   h     x    y      rot    rx   ry
+            = <&key_physical_attrs 100  94     0   97        0     0    0>  // matrix_outer_num
+            , <&key_physical_attrs 100  94   100   97        0     0    0>  // matrix_pinky_num
+            , <&key_physical_attrs 100  94   200   27        0     0    0>  // matrix_ring_num
+            , <&key_physical_attrs 100  94   300    0        0     0    0>  // matrix_middle_num
+            , <&key_physical_attrs 100  94   400   27        0     0    0>  // matrix_index_num
+            , <&key_physical_attrs 100  94   500   43        0     0    0>  // matrix_inner_num
+            , <&key_physical_attrs 100  94   950   43        0     0    0>  // matrix_inner_num (R)
+            , <&key_physical_attrs 100  94  1050   27        0     0    0>  // matrix_index_num (R)
+            , <&key_physical_attrs 100  94  1150    0        0     0    0>  // matrix_middle_num (R)
+            , <&key_physical_attrs 100  94  1250   27        0     0    0>  // matrix_ring_num (R)
+            , <&key_physical_attrs 100  94  1350   97        0     0    0>  // matrix_pinky_num (R)
+            , <&key_physical_attrs 100  94  1450   97        0     0    0>  // matrix_outer_num (R)
+            , <&key_physical_attrs 100  94     0  191        0     0    0>  // matrix_outer_top
+            , <&key_physical_attrs 100  94   100  191        0     0    0>  // matrix_pinky_top
+            , <&key_physical_attrs 100  94   200  121        0     0    0>  // matrix_ring_top
+            , <&key_physical_attrs 100  94   300   95        0     0    0>  // matrix_middle_top
+            , <&key_physical_attrs 100  94   400  121        0     0    0>  // matrix_index_top
+            , <&key_physical_attrs 100  94   500  137        0     0    0>  // matrix_inner_top
+            , <&key_physical_attrs 100  94   950  137        0     0    0>  // matrix_inner_top (R)
+            , <&key_physical_attrs 100  94  1050  121        0     0    0>  // matrix_index_top (R)
+            , <&key_physical_attrs 100  94  1150   95        0     0    0>  // matrix_middle_top (R)
+            , <&key_physical_attrs 100  94  1250  121        0     0    0>  // matrix_ring_top (R)
+            , <&key_physical_attrs 100  94  1350  191        0     0    0>  // matrix_pinky_top (R)
+            , <&key_physical_attrs 100  94  1450  191        0     0    0>  // matrix_outer_top (R)
+            , <&key_physical_attrs 100  94     0  285        0     0    0>  // matrix_outer_home
+            , <&key_physical_attrs 100  94   100  285        0     0    0>  // matrix_pinky_home
+            , <&key_physical_attrs 100  94   200  216        0     0    0>  // matrix_ring_home
+            , <&key_physical_attrs 100  94   300  189        0     0    0>  // matrix_middle_home
+            , <&key_physical_attrs 100  94   400  216        0     0    0>  // matrix_index_home
+            , <&key_physical_attrs 100  94   500  231        0     0    0>  // matrix_inner_home
+            , <&key_physical_attrs 100  94   950  231        0     0    0>  // matrix_inner_home (R)
+            , <&key_physical_attrs 100  94  1050  216        0     0    0>  // matrix_index_home (R)
+            , <&key_physical_attrs 100  94  1150  189        0     0    0>  // matrix_middle_home (R)
+            , <&key_physical_attrs 100  94  1250  216        0     0    0>  // matrix_ring_home (R)
+            , <&key_physical_attrs 100  94  1350  285        0     0    0>  // matrix_pinky_home (R)
+            , <&key_physical_attrs 100  94  1450  285        0     0    0>  // matrix_outer_home (R)
+            , <&key_physical_attrs 100  94     0  380        0     0    0>  // matrix_outer_bottom
+            , <&key_physical_attrs 100  94   100  380        0     0    0>  // matrix_pinky_bottom
+            , <&key_physical_attrs 100  94   200  310        0     0    0>  // matrix_ring_bottom
+            , <&key_physical_attrs 100  94   300  284        0     0    0>  // matrix_middle_bottom
+            , <&key_physical_attrs 100  94   400  310        0     0    0>  // matrix_index_bottom
+            , <&key_physical_attrs 100  94   500  326        0     0    0>  // matrix_inner_bottom
+            , <&key_physical_attrs 100  94   950  326        0     0    0>  // matrix_inner_bottom (R)
+            , <&key_physical_attrs 100  94  1050  310        0     0    0>  // matrix_index_bottom (R)
+            , <&key_physical_attrs 100  94  1150  284        0     0    0>  // matrix_middle_bottom (R)
+            , <&key_physical_attrs 100  94  1250  310        0     0    0>  // matrix_ring_bottom (R)
+            , <&key_physical_attrs 100  94  1350  380        0     0    0>  // matrix_pinky_bottom (R)
+            , <&key_physical_attrs 100  94  1450  380        0     0    0>  // matrix_outer_bottom (R)
+            , <&key_physical_attrs 100  94   250  404        0     0    0>  // thumb_super
+            , <&key_physical_attrs 100  94   350  404        0     0    0>  // thumb_inny
+            , <&key_physical_attrs 100  94   463  427     1700   513  474>  // thumb_middy
+            , <&key_physical_attrs 100  94   562  466    11900   612  513>  // thumb_reachy
+            , <&key_physical_attrs 100  94   600  279        0     0    0>  // thumb_extra
+            , <&key_physical_attrs 100  94   850  279        0     0    0>  // thumb_extra (R)
+            , <&key_physical_attrs 100  94   888  466 (-11900)   938  513>  // thumb_reachy (R)
+            , <&key_physical_attrs 100  94   987  427  (-1700)  1037  474>  // thumb_middy (R)
+            , <&key_physical_attrs 100  94  1100  404        0     0    0>  // thumb_inny (R)
+            , <&key_physical_attrs 100  94  1200  404        0     0    0>  // thumb_super (R)
+            ;
+    };
+};

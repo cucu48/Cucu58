@@ -1,0 +1,4 @@
+# Makes this repo a Zephyr module, so the build finds boards/shields/cucu58.
+build:
+  settings:
+    board_root: .

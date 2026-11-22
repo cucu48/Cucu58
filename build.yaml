@@ -1,0 +1,13 @@
+# What GitHub Actions builds: one firmware file (.uf2) per entry.
+# "nice_nano_v2" is the controller board; the Supermini nRF52840 is a nice!nano v2 clone
+# and uses the same firmware.
+---
+include:
+  - board: nice_nano_v2
+    shield: cucu58_left
+  - board: nice_nano_v2
+    shield: cucu58_right
+  # Wipes the stored Bluetooth pairings. Flash it to both halves if they stop
+  # connecting to each other, then flash the normal firmware again.
+  - board: nice_nano_v2
+    shield: settings_reset

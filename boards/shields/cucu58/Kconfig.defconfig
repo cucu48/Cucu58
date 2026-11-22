@@ -1,0 +1,20 @@
+# Default settings for the Cucu58 halves.
+
+# The left half is the "central": it talks to the computer over USB/Bluetooth and
+# receives the key presses of the right half (the "peripheral") over Bluetooth.
+if SHIELD_CUCU58_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "Cucu58"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+if SHIELD_CUCU58_LEFT || SHIELD_CUCU58_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif

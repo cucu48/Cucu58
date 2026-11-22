@@ -4,7 +4,9 @@ Guidance for AI coding agents working on the **Cucu58**, a 58-key split wireless
 
 ## What this repo is
 
-A hardware design repo. The source of truth is one [Ergogen](https://docs.ergogen.xyz/) config, `config.yaml` (engine 4.1.0), which generates the KiCad 8 PCB and outlines. There is no application code.
+A hardware design repo. The source of truth for the hardware is one [Ergogen](https://docs.ergogen.xyz/) config, `config.yaml` (engine 4.1.0), which generates the KiCad 8 PCB and outlines.
+
+It also hosts the **ZMK firmware** config (pinned to ZMK `v0.3`, board `nice_nano_v2`, shields `cucu58_left` / `cucu58_right`), laid out like ZMK's unified-zmk-config-template so GitHub Actions can build it: `build.yaml`, `config/` (west.yml, `cucu58.keymap`, `cucu58.conf`), `boards/shields/cucu58/`, `zephyr/module.yml`, `.github/workflows/build.yml`. Don't confuse the `config/` directory (ZMK) with `config.yaml` (Ergogen). See FIRMWARE.md.
 
 ## Commands
 
@@ -13,6 +15,13 @@ ergogen config.yaml -o output --debug   # regenerate everything into output/
 ```
 
 `output/` is generated: never hand-edit it for design changes, and don't commit it unless asked. After any edit to `config.yaml`, run the command above and check that it completes without errors and that the PCB/outline files are produced. If Ergogen isn't installed, say so rather than claiming the config works.
+
+## Firmware (ZMK) rules
+
+- Pins in `boards/shields/cucu58/cucu58_left.overlay` / `cucu58_right.overlay` must match the README wiring table. The right half's pins are mirrored (flipped PCB) and its columns are listed inner → outer.
+- The keymap order is defined by the matrix transform in `cucu58.dtsi`: 4 rows × 12, then 10 thumbs. Every layer must have exactly 58 bindings, and `cucu58-layout.dtsi` must list keys in the same order (regenerate it with `scripts/zmk_physical_layout.py`).
+- Bump the ZMK version in `config/west.yml` and `.github/workflows/build.yml` together.
+- To check a firmware change locally, build it in the `zmkfirmware/zmk-build-arm:3.5` container (see FIRMWARE.md). If you can't build it, say so.
 
 ## `config.yaml` structure
 

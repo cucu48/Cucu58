@@ -1,0 +1,8 @@
+# Tells ZMK that the shields "cucu58_left" and "cucu58_right" exist.
+# The name in build.yaml (shield: cucu58_left) turns on the matching symbol.
+
+config SHIELD_CUCU58_LEFT
+    def_bool $(shields_list_contains,cucu58_left)
+
+config SHIELD_CUCU58_RIGHT
+    def_bool $(shields_list_contains,cucu58_right)

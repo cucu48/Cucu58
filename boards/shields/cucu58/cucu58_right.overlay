@@ -1,0 +1,32 @@
+/*
+ * Cucu58 right half: the same PCB flipped over, so every non-jumpered MCU pin is
+ * mirrored (P21<->P2, P20<->P3, P19<->P4, P18<->P5, P15<->P6, P14<->P7).
+ * See the table in README.md > Wiring. Not yet verified on a real board: check one
+ * column and one row with a multimeter on the first assembled right half.
+ */
+
+#include "cucu58.dtsi"
+
+// The right half's columns come after the left half's 6 columns in the transform.
+&default_transform {
+    col-offset = <6>;
+};
+
+&kscan0 {
+    // Listed in physical order, left to right (inner -> outer).
+    col-gpios
+        = <&pro_micro 7 GPIO_ACTIVE_HIGH>    // inner  + thumb_extra   (PCB net P14)
+        , <&pro_micro 6 GPIO_ACTIVE_HIGH>    // index  + thumb_reachy  (PCB net P15)
+        , <&pro_micro 5 GPIO_ACTIVE_HIGH>    // middle + thumb_middy   (PCB net P18)
+        , <&pro_micro 4 GPIO_ACTIVE_HIGH>    // ring   + thumb_inny    (PCB net P19)
+        , <&pro_micro 3 GPIO_ACTIVE_HIGH>    // pinky  + thumb_super   (PCB net P20)
+        , <&pro_micro 2 GPIO_ACTIVE_HIGH>    // outer                  (PCB net P21)
+        ;
+    row-gpios
+        = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // num    (PCB net P2)
+        , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // top    (PCB net P3)
+        , <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // home   (PCB net P4)
+        , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // bottom (PCB net P5)
+        , <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // thumb  (PCB net P6)
+        ;
+};

@@ -1,0 +1,15 @@
+# Tells the build which ZMK version to download. Pinned to the v0.3 release so builds
+# don't change under you; bump "revision" (and the @v0.3 in .github/workflows/build.yml)
+# to upgrade.
+manifest:
+  defaults:
+    revision: v0.3
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+  projects:
+    - name: zmk
+      remote: zmkfirmware
+      import: app/west.yml
+  self:
+    path: config
