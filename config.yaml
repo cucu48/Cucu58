@@ -1,0 +1,213 @@
+meta:
+  engine: 4.1.0
+  version: 1.0
+  author: Cucu48
+
+units:
+  in: 2.54
+  $default_width: 'cx'
+  $default_height: 'cy'
+  $default_spread: 'cx'
+  $default_padding: 'cy'
+  $default_autobind: 10 
+# U is a predefined unit of measure that means 19.05mm, which is MX spacing (u is 19.00mm)
+points:
+  zones:
+    matrix:
+      anchor.shift: [50,-100] # Fix KiCad placemsent
+      columns:
+        outer:
+          key:
+            col_net: P21
+        pinky:
+          key:
+            col_net: P20
+        ring:
+          key:
+            stagger: 0.66U
+            col_net: P19
+        middle:
+          key:
+            stagger: 0.25U
+            col_net: P18
+        index:
+          key:
+            stagger: -0.25U
+            col_net: P15
+        inner:
+          key:
+            stagger: -0.15U
+            col_net: P14
+      rows:
+        bottom:
+          row_net: P5
+        home:
+          row_net: P4
+        top:
+          row_net: P3
+        num:
+          row_net: P2
+    thumb:
+      anchor:
+        ref: matrix_ring_bottom
+        shift: [0.5cx, -1cy] #values: 0.425cx, -1.2cy other: 0.739 cx, 1,32 cy are the standard values for a ferris sweep, I make it less to fit all three keys on a reasonably-sized PCB.
+      columns:
+        pinky:
+          key:
+            name: thumb_super
+            col_net: P20
+        ring:
+          key:
+            name: thumb_inny
+            col_net: P19
+        middle:
+          key:
+            spread: cx
+            splay: -17
+            origin: [-0.7cx, -0.57cy]
+            name: thumb_middy
+            col_net: P18
+        index:
+          key:
+            spread: cx
+            splay: -102
+            origin: [0.001cx, -0.072cy]
+            name: thumb_reachy
+            col_net: P15
+      rows:
+        thumb:
+          row_net: P6
+    thumb_extra:
+      anchor:
+        ref: matrix_inner_bottom
+        shift: [1cx, 1/2cy]
+      columns:
+        inner:
+          key:
+            name: thumb_extra
+            col_net: P14
+      rows:
+        thumb:
+          row_net: P6
+outlines:
+  pcb_edge:
+    keys:
+      what: rectangle
+      where: true
+      size: [cx+2, cy+2]          # 1 mm margin around every key
+    # Wall 1 (top + right): block right of the inner column for the Supermini.
+    # MCU left edge = inner key edge + 1 mm (pcbs.mcu shift), board width = 7in (17.78 mm),
+    # so the right wall = MCU right edge + 1 mm, straight down to the bottom of thumb_extra.
+    mcu_wall:
+      what: polygon
+      points:
+        - ref: matrix_inner_num
+          shift: [cx/2, cy/2 + 1]
+        - ref: matrix_inner_num
+          shift: [cx/2 + 1 + 7in + 1, cy/2 + 1]
+        # y from thumb_extra's bottom margin, x from the MCU right wall
+        - [{ref: thumb_extra, shift: [0, -cy/2 - 1]}, {ref: matrix_inner_num, shift: [cx/2 + 1 + 7in + 1, 0], affect: x}]
+        - ref: thumb_extra
+          shift: [-cx/2, -cy/2 - 1]
+    # Wall 2: pinky bottom-right corner -> thumb_super bottom-left corner (fills the notch)
+    pinky_wall:
+      what: polygon
+      points:
+        - ref: matrix_pinky_bottom
+          shift: [cx/2 + 1, -cy/2 - 1]
+        - ref: thumb_super
+          shift: [-cx/2 - 1, -cy/2 - 1]
+        - ref: thumb_super
+          shift: [-cx/2, cy/2]
+        - ref: matrix_pinky_bottom
+          shift: [cx/2, cy/2]
+    # Wall 3: thumb_inny bottom-left corner -> thumb_middy bottom-left corner.
+    # The key centres close the slit between inny/middy and the sliver under index/inner.
+    inny_wall:
+      what: polygon
+      points:
+        - ref: thumb_inny
+          shift: [-cx/2 - 1, -cy/2 - 1]
+        - ref: thumb_middy
+          shift: [-cx/2 - 1, -cy/2 - 1]
+        - ref: thumb_middy
+        - ref: matrix_inner_bottom
+        - ref: matrix_index_bottom
+        - ref: thumb_inny
+    # Wall 4: bottom of the MCU wall -> outer corner of thumb_reachy
+    reachy_wall:
+      what: polygon
+      points:
+        - [{ref: thumb_extra, shift: [0, -cy/2 - 1]}, {ref: matrix_inner_num, shift: [cx/2 + 1 + 7in + 1, 0], affect: x}]
+        - ref: thumb_reachy
+          shift: [-cx/2 - 1, cy/2 + 1]
+        - ref: thumb_reachy
+        - ref: thumb_middy
+        - ref: matrix_inner_bottom
+    middle_gap:
+      what: rectangle
+      where:
+        ref: matrix_middle_bottom
+        shift: [0, -cy/2]
+      size: [cx, cy/2]
+
+      fillet: 2                   # must be on the LAST part: it rounds the whole outline built so far
+pcbs:
+  split:
+    template: kicad8
+    outlines:
+      edge:
+        outline: pcb_edge
+        layer: Edge.Cuts
+    footprints:
+      keys:
+        what: ceoloide/switch_choc_v1_v2
+        where: true
+        params:
+          from: "{{col_net}}"
+          to: "{{colrow}}"
+          reversible: true
+          keycap_height: cy
+          keycap_width: cx
+          include_keycap: true
+      diode:
+        what: ceoloide/diode_tht_sod123   # supports SMD SOD-123, matches your 1N4148W
+        where: true
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+          reversible: true
+          include_tht: true
+          include_traces_vias: true 
+        adjust:
+          shift: [0, -7.7]   # offset from the switch centre;
+          rotate: 180
+      power_swich:
+        what: ceoloide/power_switch_smd_side
+        where:
+          - ref: matrix_inner_num
+            shift: [cx/2 + 3.5in + 1, cy/2]
+            rotate: 90
+        params:
+          reversible: true
+      reset_swich:
+        what: ceoloide/reset_switch_tht_top
+        where:
+          - ref: matrix_inner_home
+            shift: [cx/2 + 7in/4 + 1, cy/4 + 1]
+            rotate: 90
+      molex_connector:
+        what: ceoloide/battery_connector_jst_ph_2
+        where:
+          - ref: matrix_inner_home
+            shift: [cx/2 + 18in/4, cy/4 + 1]
+            rotate: 90
+        params:
+      mcu:
+        what: ceoloide/mcu_supermini_nrf52840
+        where:
+          - ref: matrix_inner_num
+            shift: [cx/2 + 3.5in + 1, cy/2 - 16]
+        params:
+          reversible: true
+          only_required_jumpers: true
